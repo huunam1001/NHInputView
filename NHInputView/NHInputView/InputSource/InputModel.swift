@@ -14,6 +14,14 @@ class InputModel: NSObject
     var placeholder: String = ""
     var maskNumber: String = ""
     var validation: ValidationModel?
+    
+    override init() {
+        
+        self.title = ""
+        self.placeholder = ""
+        self.maskNumber = ""
+        self.validation = nil
+    }
 
     init(title: String, placeholder: String, maskNumber:String, validation:ValidationModel?)
     {
