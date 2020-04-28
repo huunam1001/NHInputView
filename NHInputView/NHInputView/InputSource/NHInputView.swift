@@ -17,6 +17,8 @@ class NHInputView: UIView, UITextFieldDelegate {
     var inputText:UITextField!
     var errorLabel:UILabel!
     
+    var validated = false
+    
     var inputData = InputModel()
     
     func setView(_ input: InputModel, width:CGFloat)
@@ -68,6 +70,8 @@ class NHInputView: UIView, UITextFieldDelegate {
             
             errorLabel.text = "\(inputData.validation!.errorString)"
             
+            validated = false
+            
 //            errorLabel.sizeToFit()
 //            self.addSubview(errorLabel)
 //            errorLabel.left = MARGIN_SIZE*2
@@ -78,6 +82,8 @@ class NHInputView: UIView, UITextFieldDelegate {
         }
         else
         {
+            validated = true
+            
             errorLabel.text = "You don't have validation"
             
             self.height = inputText.bottom
@@ -100,12 +106,14 @@ class NHInputView: UIView, UITextFieldDelegate {
         {
             let textResult = NSPredicate(format:"SELF MATCHES %@", inputData.validation!.expression)
             
-            return textResult.evaluate(with: inputText.text)
+            validated = textResult.evaluate(with: inputText.text)
         }
         else
         {
-            return true
+            validated = true
         }
+        
+        return validated
     }
     
     func validationInput()

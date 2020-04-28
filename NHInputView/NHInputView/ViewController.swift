@@ -10,7 +10,10 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var btnCheck:UIButton!
+    
     var mainDataList = [InputModel]()
+    var viewList = [NHInputView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,16 +49,21 @@ class ViewController: UIViewController {
     
     private func addTextComponents()
     {
-        var top = 20 as CGFloat
+        var top = btnCheck.bottom + 20.0
         
         for (index, item) in mainDataList.enumerated()
         {
             let inputView = NHInputView()
             inputView.setView(item, width: self.view.width - 40)
             
+            
+            
             inputView.tag = index + 1
             
             self.view.addSubview(inputView)
+            
+            viewList.append(inputView)
+            
             inputView.left = 20.0
             inputView.top = top
             
@@ -70,6 +78,20 @@ class ViewController: UIViewController {
             
             //
             top = inputView.bottom + 5.0
+        }
+    }
+    
+    @IBAction func nextAction(_ sender:Any)
+    {
+        let errorIndex = viewList.firstIndex(where: { $0.validated == false }) ?? -1
+        
+        
+        if(errorIndex != -1)
+        {
+            for view in viewList
+            {
+                view.validationInput()
+            }
         }
     }
 }
